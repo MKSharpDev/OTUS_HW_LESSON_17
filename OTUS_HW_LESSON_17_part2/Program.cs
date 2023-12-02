@@ -10,10 +10,10 @@
 //FileArgs – будет содержать имя файла и наследоваться от EventArgs
 //4.Добавить возможность отмены дальнейшего поиска из обработчика;
 //5.Вывести в консоль сообщения, возникающие при срабатывании событий и результат поиска максимального элемента.
-
+void DisplayMessage(EventHandler<FileArgs> handler ) => Console.WriteLine(handler.Target);
 
 FileViewer newViewer = new FileViewer();
-newViewer.Notify += DisplayMessage;
 newViewer.GetFileNames();
-void DisplayMessage(string message) => Console.WriteLine(message);
+
+newViewer.FileFound += DisplayMessage;
 Console.ReadKey();

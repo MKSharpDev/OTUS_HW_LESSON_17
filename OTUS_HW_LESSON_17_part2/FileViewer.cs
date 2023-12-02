@@ -9,8 +9,8 @@ namespace OTUS_HW_LESSON_17_part2
     public class FileViewer
     {
         public string path;
-        public delegate void FileHandler(string message);
-        public event FileHandler? Notify;
+
+        public event EventHandler<FileArgs> FileFound;
 
         public FileViewer()
         {
@@ -27,8 +27,12 @@ namespace OTUS_HW_LESSON_17_part2
 
             foreach (string filename in allfiles)
             {
-                Notify?.Invoke($"Обнаружен файл {filename}");
-                Thread.Sleep(500);          
+                FileArgs fileArgs = new FileArgs();
+                Thread.Sleep(500);
+                EventHandler<FileArgs> handler = FileFound;
+                fileArgs.DisplayMassege = $"Обнаружен файл {filename}";
+
+                handler(this, fileArgs);
             }
         }
     }
