@@ -1,4 +1,5 @@
 ﻿using OTUS_HW_LESSON_17_part2;
+using System.Diagnostics;
 
 
 //1.Написать обобщённую функцию расширения, находящую и возвращающую максимальный элемент коллекции.
@@ -13,8 +14,22 @@
 
 
 FileViewer newViewer = new FileViewer();
+CancellationTokenSource cts = new CancellationTokenSource();
+var token = cts.Token; 
 newViewer.FileFound += (sender, hendler) => Console.WriteLine(hendler.DisplayMassege);
+Stopwatch stopwatch = Stopwatch.StartNew();
+stopwatch.Start();
+var thread = new Thread(() => newViewer.GetFileNames(token, stopwatch));
+thread.Start();
+while (true)
+{
+    if (stopwatch.ElapsedMilliseconds > 1400)
+    {
+        cts.Cancel();
+        Console.WriteLine($"Сработал токен отмены {stopwatch.ElapsedMilliseconds}");
+        break; 
+    }
+}
 
-newViewer.GetFileNames();
 
 Console.ReadKey();
