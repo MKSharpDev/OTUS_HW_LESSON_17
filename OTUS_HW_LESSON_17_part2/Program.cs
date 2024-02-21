@@ -34,7 +34,9 @@ while (true)
 
 Console.ReadKey();
 
+//Второй вариант
 CancellationTokenSource cts2 = new CancellationTokenSource();
 token = cts2.Token;
 cts2.CancelAfter(1300);
+stopwatch.Restart();
 await newViewer.GetFileNames(token, stopwatch);
